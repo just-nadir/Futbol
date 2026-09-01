@@ -43,12 +43,20 @@ export default function Home() {
         </Link>
       </header>
 
-      <Link
-        href="/new-match"
-        className="rounded-2xl bg-emerald-600 px-4 py-3 text-center font-semibold text-white transition-colors hover:bg-emerald-500"
-      >
-        + Yangi o&apos;yin yaratish
-      </Link>
+      <div className="flex gap-3">
+        <Link
+          href="/new-match"
+          className="flex-1 rounded-2xl bg-emerald-600 px-4 py-3 text-center font-semibold text-white transition-colors hover:bg-emerald-500"
+        >
+          + Yangi o&apos;yin
+        </Link>
+        <Link
+          href="/players"
+          className="flex-1 rounded-2xl bg-neutral-900 px-4 py-3 text-center font-semibold text-white ring-1 ring-neutral-800 transition-colors hover:bg-neutral-800"
+        >
+          👥 O&apos;yinchilar
+        </Link>
+      </div>
 
       <section className="flex flex-col gap-3">
         <h2 className="text-sm font-semibold text-neutral-400">Kelayotgan o&apos;yinlar</h2>

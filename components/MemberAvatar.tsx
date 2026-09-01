@@ -1,6 +1,6 @@
 import type { TelegramUser } from "@/lib/types";
 
-function initials(user: TelegramUser) {
+export function initials(user: TelegramUser) {
   const a = user.first_name?.[0] ?? "";
   const b = user.last_name?.[0] ?? "";
   return (a + b).toUpperCase() || "?";
