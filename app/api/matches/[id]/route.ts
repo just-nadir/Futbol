@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase";
 import { validateInitData } from "@/lib/telegram-auth";
-import type { RsvpStatus, TelegramUser } from "@/lib/types";
+import { resolveDisplay } from "@/lib/display-user";
+import type { RsvpStatus, AdminUserRow } from "@/lib/types";
 
 export async function GET(
   req: NextRequest,
@@ -18,16 +19,19 @@ export async function GET(
 
   const { data: rsvps, error: rsvpError } = await supabaseAdmin
     .from("rsvps")
-    .select("user_id, status, created_at, users(id, first_name, last_name, username, photo_url)")
+    .select(
+      "user_id, status, created_at, users(id, first_name, last_name, username, photo_url, custom_name, custom_photo_url)",
+    )
     .eq("match_id", id)
     .order("created_at", { ascending: true });
   if (rsvpError) return NextResponse.json({ error: rsvpError.message }, { status: 500 });
 
-  type Row = { status: RsvpStatus; users: TelegramUser | null };
+  type Row = { status: RsvpStatus; users: AdminUserRow | null };
   const going = (rsvps as unknown as Row[]).filter((r) => r.status === "going" && r.users);
   const maybe = (rsvps as unknown as Row[]).filter((r) => r.status === "maybe" && r.users);
 
-  const withStatus = (rows: Row[]) => rows.map((r) => ({ ...r.users!, status: r.status }));
+  const withStatus = (rows: Row[]) =>
+    rows.map((r) => ({ ...resolveDisplay(r.users!), status: r.status }));
 
   const confirmed = withStatus(going.slice(0, match.max_spots));
   const waitlist = withStatus(going.slice(match.max_spots));

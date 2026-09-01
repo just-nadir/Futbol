@@ -1,5 +1,6 @@
 import { createHmac, timingSafeEqual } from "crypto";
 import { supabaseAdmin } from "./supabase";
+import { resolveDisplay } from "./display-user";
 import type { TelegramUser } from "./types";
 
 const MAX_AUTH_AGE_SECONDS = 24 * 60 * 60;
@@ -52,22 +53,30 @@ export function validateInitData(initData: string): TelegramUser {
   };
 }
 
-/** Validates initData and upserts the Telegram user into our `users` table. */
+/**
+ * Validates initData, Telegram'dan kelgan asl ma'lumotni `users` jadvaliga yozadi
+ * (admin panelda kiritilgan custom_name/custom_photo_url'ga tegmaydi), va
+ * ko'rsatish uchun tayyor (custom qiymatlar ustun qo'yilgan) foydalanuvchini qaytaradi.
+ */
 export async function validateAndUpsertUser(initData: string): Promise<TelegramUser> {
   const user = validateInitData(initData);
 
-  const { error } = await supabaseAdmin.from("users").upsert(
-    {
-      id: user.id,
-      first_name: user.first_name,
-      last_name: user.last_name,
-      username: user.username,
-      photo_url: user.photo_url,
-      updated_at: new Date().toISOString(),
-    },
-    { onConflict: "id" },
-  );
+  const { data, error } = await supabaseAdmin
+    .from("users")
+    .upsert(
+      {
+        id: user.id,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        username: user.username,
+        photo_url: user.photo_url,
+        updated_at: new Date().toISOString(),
+      },
+      { onConflict: "id" },
+    )
+    .select("id, first_name, last_name, username, photo_url, custom_name, custom_photo_url")
+    .single();
   if (error) throw error;
 
-  return user;
+  return resolveDisplay(data);
 }

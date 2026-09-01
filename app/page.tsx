@@ -34,6 +34,13 @@ export default function Home() {
             <p className="font-semibold text-white">{telegram.user.first_name}</p>
           </div>
         </div>
+        <Link
+          href="/admin"
+          className="rounded-full bg-neutral-900 p-2.5 text-neutral-400 ring-1 ring-neutral-800 hover:text-white"
+          title="Admin panel"
+        >
+          ⚙️
+        </Link>
       </header>
 
       <Link

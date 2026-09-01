@@ -37,3 +37,9 @@ export type MatchWithAttendees = Match & {
   maybe: (TelegramUser & { status: RsvpStatus })[];
   myStatus: RsvpStatus | null;
 };
+
+/** Admin panelida ko'rinadigan qator: Telegram'dan kelgan asl ma'lumot + qo'lda kiritilgan qiymatlar. */
+export type AdminUserRow = TelegramUser & {
+  custom_name: string | null;
+  custom_photo_url: string | null;
+};
