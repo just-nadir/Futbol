@@ -3,11 +3,13 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTelegram } from "@/lib/use-telegram";
+import { useTelegramBackButton } from "@/lib/use-telegram-back-button";
 import { apiFetch } from "@/lib/api-client";
 
 export default function NewMatch() {
   const telegram = useTelegram();
   const router = useRouter();
+  useTelegramBackButton("/");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [location, setLocation] = useState("");

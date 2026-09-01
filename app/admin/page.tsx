@@ -2,11 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { useTelegram } from "@/lib/use-telegram";
+import { useTelegramBackButton } from "@/lib/use-telegram-back-button";
 import { AdminUserRow } from "@/components/AdminUserRow";
 import type { AdminUserRow as AdminUserRowType } from "@/lib/types";
 
 export default function AdminPage() {
   const telegram = useTelegram();
+  useTelegramBackButton("/");
   const [users, setUsers] = useState<AdminUserRowType[] | null>(null);
   const [error, setError] = useState<string | null>(null);
 

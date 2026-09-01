@@ -71,7 +71,7 @@ export async function POST(req: NextRequest) {
       await sendMessage(
         chatId,
         `⚽ Yangi o'yin!\n\n📅 ${when}\n📍 ${location}\n👥 Max ${max_spots} kishi\n\n${user.first_name} tomonidan yaratildi.`,
-        { withAppButton: true, matchPath: `?match=${data.id}` },
+        { withAppButton: true, matchPath: `/match/${data.id}` },
       );
     } catch (e) {
       console.error("Failed to notify group", e);

@@ -36,7 +36,7 @@ export async function GET(req: NextRequest) {
       await sendMessage(
         chatId,
         `⏰ Eslatma: bugungi o'yin\n📅 ${when}\n📍 ${match.location}`,
-        { withAppButton: true, matchPath: `?match=${match.id}` },
+        { withAppButton: true, matchPath: `/match/${match.id}` },
       );
       await supabaseAdmin
         .from("matches")
@@ -56,7 +56,7 @@ export async function GET(req: NextRequest) {
         await sendMessage(
           chatId,
           `⚠️ Diqqat! ${when} o'yiniga hozircha faqat ${count ?? 0} kishi "boraman" degan (kamida ${match.min_players} kerak).`,
-          { withAppButton: true, matchPath: `?match=${match.id}` },
+          { withAppButton: true, matchPath: `/match/${match.id}` },
         );
         await supabaseAdmin
           .from("matches")

@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { useTelegram } from "@/lib/use-telegram";
+import { useTelegramBackButton } from "@/lib/use-telegram-back-button";
 import { apiFetch } from "@/lib/api-client";
 import { RSVPButtons } from "@/components/RSVPButtons";
 import { AttendeeList } from "@/components/AttendeeList";
@@ -12,6 +13,7 @@ import type { MatchWithAttendees, RsvpStatus } from "@/lib/types";
 export default function MatchDetail() {
   const { id } = useParams<{ id: string }>();
   const telegram = useTelegram();
+  useTelegramBackButton("/");
   const [match, setMatch] = useState<MatchWithAttendees | null>(null);
   const [rsvpLoading, setRsvpLoading] = useState(false);
 

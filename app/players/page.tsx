@@ -2,11 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { useTelegram } from "@/lib/use-telegram";
+import { useTelegramBackButton } from "@/lib/use-telegram-back-button";
 import { PlayerCard } from "@/components/PlayerCard";
 import type { TelegramUser } from "@/lib/types";
 
 export default function PlayersPage() {
   const telegram = useTelegram();
+  useTelegramBackButton("/");
   const [players, setPlayers] = useState<TelegramUser[] | null>(null);
 
   useEffect(() => {

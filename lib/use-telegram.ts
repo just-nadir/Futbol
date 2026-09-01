@@ -11,6 +11,17 @@ declare global {
         ready: () => void;
         expand: () => void;
         colorScheme: "light" | "dark";
+        isVersionAtLeast: (version: string) => boolean;
+        requestFullscreen?: () => void;
+        exitFullscreen?: () => void;
+        isFullscreen?: boolean;
+        BackButton: {
+          isVisible: boolean;
+          show: () => void;
+          hide: () => void;
+          onClick: (cb: () => void) => void;
+          offClick: (cb: () => void) => void;
+        };
       };
     };
   }
@@ -40,6 +51,9 @@ export function useTelegram(): State {
     }
     webApp.ready();
     webApp.expand();
+    if (webApp.isVersionAtLeast("8.0")) {
+      webApp.requestFullscreen?.();
+    }
 
     const initData = webApp.initData;
     if (!initData) {
