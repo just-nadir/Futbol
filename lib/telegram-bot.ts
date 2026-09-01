@@ -56,6 +56,17 @@ export async function setWebhook(webhookUrl: string, secretToken: string) {
   return callTelegram("setWebhook", { url: webhookUrl, secret_token: secretToken });
 }
 
+/**
+ * Shaxsiy chatlarda xabar yozish maydoni yonida doimiy ko'rinadigan "Menu Button"ni
+ * o'rnatadi. Telegram guruh chatlarida bunday doimiy tugmani qo'llab-quvvatlamaydi —
+ * guruhda Mini App faqat bot yuborgan xabardagi inline tugma orqali ochiladi.
+ */
+export async function setMenuButton(text: string) {
+  return callTelegram("setChatMenuButton", {
+    menu_button: { type: "web_app", text, web_app: { url: appUrl() } },
+  });
+}
+
 export async function getWebhookInfo() {
   const res = await fetch(`${API_BASE}/bot${botToken()}/getWebhookInfo`);
   return res.json();

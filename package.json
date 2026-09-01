@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "set-webhook": "tsx scripts/set-webhook.ts"
+    "set-webhook": "tsx scripts/set-webhook.ts",
+    "set-menu-button": "tsx scripts/set-menu-button.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.112.4",
