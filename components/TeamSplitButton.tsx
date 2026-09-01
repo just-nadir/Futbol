@@ -1,15 +1,29 @@
 "use client";
 
 import { useState } from "react";
-import { PitchLineup } from "./PitchLineup";
+import { MemberAvatar } from "./MemberAvatar";
 import type { TelegramUser } from "@/lib/types";
 
 type Teams = { team_a: number[]; team_b: number[] } | null;
 
-function toMembers(ids: number[], roster: TelegramUser[]): TelegramUser[] {
-  return ids
+function TeamList({ label, ids, roster }: { label: string; ids: number[]; roster: TelegramUser[] }) {
+  const members = ids
     .map((id) => roster.find((u) => u.id === id))
     .filter((u): u is TelegramUser => Boolean(u));
+
+  return (
+    <div className="flex-1 rounded-xl bg-neutral-800 p-3">
+      <p className="mb-2 text-sm font-semibold text-neutral-300">{label}</p>
+      <div className="space-y-2">
+        {members.map((u) => (
+          <div key={u.id} className="flex items-center gap-2">
+            <MemberAvatar user={u} size={28} />
+            <span className="text-sm text-neutral-200">{u.first_name}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 export function TeamSplitButton({
@@ -53,8 +67,9 @@ export function TeamSplitButton({
       </button>
 
       {teams && (
-        <div className="mt-3">
-          <PitchLineup teamA={toMembers(teams.team_a, roster)} teamB={toMembers(teams.team_b, roster)} />
+        <div className="mt-3 flex gap-3">
+          <TeamList label="A jamoa" ids={teams.team_a} roster={roster} />
+          <TeamList label="B jamoa" ids={teams.team_b} roster={roster} />
         </div>
       )}
     </div>
